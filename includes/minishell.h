@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchrcat.c                                     :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sinkosi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/01 13:22:50 by sinkosi           #+#    #+#             */
-/*   Updated: 2019/09/01 13:22:51 by sinkosi          ###   ########.fr       */
+/*   Created: 2020/01/23 11:24:51 by sinkosi           #+#    #+#             */
+/*   Updated: 2020/01/23 11:25:32 by sinkosi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_ls.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-char	*ft_strchrcat(char *dst, const char src)
-{
-	size_t i;
+# include "../libft/includes/libft.h"
 
-	i = ft_strlen(dst);
-	if (src != '\0')
-		dst[i] = src;
-	dst[i + 1] = '\0';
-	return (dst);
-}
+#endif

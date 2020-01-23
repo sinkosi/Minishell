@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dir_strcmp.c                                    :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sinkosi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/01 13:14:46 by sinkosi           #+#    #+#             */
-/*   Updated: 2019/09/01 13:59:21 by sinkosi          ###   ########.fr       */
+/*   Created: 2020/01/23 11:23:23 by sinkosi           #+#    #+#             */
+/*   Updated: 2020/01/23 11:24:28 by sinkosi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_ls.h"
-
-int	ft_dir_strcmp(t_dir dir1, t_dir dir2)
+//int		main(int argc, char **argv)
+int main(void)
 {
-	return (ft_strcmp(dir1.dir, dir2.dir));
+	return (0);
 }

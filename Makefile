@@ -61,21 +61,7 @@ LIBFT_H		= -I ./$(LIBFT_PATH)/includes/
 #################################
 #	FILES			#
 #################################
-SRCS_NAME	=	ft_dir_strcmp.c		\
-				ft_flag_recursive.c	\
-				ft_ls_flag_set.c	\
-				ft_get_time.c		\
-				ft_get_user.c		\
-				ft_list_run.c		\
-				ft_ls_p_long_list.c	\
-				ft_ls_p_permission.c\
-				ft_ls_print.c		\
-				ft_ls_run_op.c			\
-				ft_ls_strlen.c		\
-				ft_rev_list.c		\
-				ft_sort_list.c		\
-				ft_strchrcat.c		\
-				ft_time_cmp.c		\
+SRCS_NAME	=	minishell.c
 
 
 OBJ		= $(addprefix $(OBJ_PATH)/, $(SRCS_NAME:%.c=%.o))
@@ -98,7 +84,7 @@ $(NAME):	$(OBJ)
 		@ar rc $(NAME) $(OBJ) $(LIBFT_PATH)/obj/*.o
 		@ranlib $(NAME)
 		$(OUTPUT)
-		@clang -Wall -Wextra -Werror srcs/ft_ls.c libftls.a -o ft_ls
+		@clang -Wall -Wextra -Werror srcs/minishell.c libftls.a -o minishell
 		
 
 $(OBJ_PATH)/%.o: $(SRCS_PATH)/%.c

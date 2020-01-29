@@ -61,7 +61,7 @@ LIBFT_H		= -I ./$(LIBFT_PATH)/includes/
 #################################
 #	FILES			#
 #################################
-SRCS_NAME	=	minishell.c
+SRCS_NAME	=	cmd_pwd.c
 
 
 OBJ		= $(addprefix $(OBJ_PATH)/, $(SRCS_NAME:%.c=%.o))
@@ -98,7 +98,7 @@ clean	:
 fclean	: clean
 	@make -C $(LIBFT_PATH)/ fclean
 	@/bin/rm -rf $(NAME)
-	@rm -rf ./ft_ls
+	@rm -rf ./minishell
 
 re:	fclean all
 

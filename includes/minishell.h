@@ -14,5 +14,12 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
+# include <limits.h>
+
+# define SPECIAL_CHAR(i) (i == '"' || i == '\'')
+
+char    **cmd_pwd(char **args, char **env);
+int     cmd_echo(char **args);
+
 
 #endif

@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/minishell.h"
 //int		main(int argc, char **argv)
 int main(void)
 {
+	ft_printf("This is a Minishell test\n");
 	return (0);
 }

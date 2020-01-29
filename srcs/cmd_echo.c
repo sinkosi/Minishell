@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_echo.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sinkosi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/29 13:33:32 by sinkosi           #+#    #+#             */
+/*   Updated: 2020/01/29 13:36:34 by sinkosi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-int cmd_echo(char **args)
+int			cmd_echo(char **args)
 {
 	int i;
 	int n;
@@ -27,5 +39,5 @@ int cmd_echo(char **args)
 
 static void	echo_args(char **str, int pos)
 {
-	
+	return (0);
 }

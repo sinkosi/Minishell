@@ -6,7 +6,7 @@
 /*   By: sinkosi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 11:24:51 by sinkosi           #+#    #+#             */
-/*   Updated: 2020/01/23 11:25:32 by sinkosi          ###   ########.fr       */
+/*   Updated: 2020/01/29 13:31:37 by sinkosi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 
 # define SPECIAL_CHAR(i) (i == '"' || i == '\'')
 
-char    **cmd_pwd(char **args, char **env);
-int     cmd_echo(char **args);
-
+char	**cmd_pwd(char **args, char **env);
+int		cmd_echo(char **args);
 
 #endif

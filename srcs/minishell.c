@@ -12,9 +12,6 @@
 
 #include "../includes/minishell.h"
 
-#include <readline/readline.h>
-//char	**g_envp;
-
 static void	print_env(char **g_envp)
 {
 	int		i;
@@ -84,15 +81,12 @@ static void	copy_envp(int ac, char **av, char **envp, char **g_envp)
 	{
 		if (!(g_envp[i] = ft_strdup(envp[i])))
 		{
-			//ft_memdel((void**)(g_envp));
 			ft_free_array(g_envp);
 			write(1, "\n", 1);
 			exit(0);
 		}
-		//ft_putendl(g_envp[i]);
 		i++;
 	}
-	//ft_putendl(g_envp[0]);
 	g_envp[i] = NULL;
 }
 
@@ -100,68 +94,8 @@ int			main(int ac, char **av, char **envp)
 {
 	char **g_envp;
 
-	//char *str = readline("Test>> ");
 	copy_envp(ac, av, envp, g_envp);
 	ft_loop(g_envp);
 	ft_free_array(g_envp);
 	return (1);
 }
-/*
-static void	run_loop(void)
-{
-	char	*str;
-	//char	**loop_array;
-	int		status;
-
-	status = -1;
-	while(status != 0)
-	{
-		ft_dprintf(1, "$>");
-		get_next_line(0, &str);
-		//loop_array = ft_strsplit(str, ' ');
-		ft_strdel(&str);
-		//status = exec_builtin(loop_array);
-		status = 0;
-	}
-}*/
-
-/*
-
-int	main(int argc, char **argv, char **envp)
-{
-	//ft_welcome(1);
-	ft_printf("---  \n");
-	ft_printf("!   ! !\\   ! ! /   /\\   --- !\n");
-	ft_printf("--- ! ! \\  ! !/   /  \\  !__ !\n");
-	ft_printf("  ! ! !  \\ ! !\\   \\  /    ! !\n");
-	ft_printf("__! ! !   \\! ! \\   \\/   --- !\n");
-	if (argc != 3)
-	{
-		ft_printf("Not enough arguments\n");	
-		return (1);
-	}
-	else*/
-/*	char *word = envp[0];
-	if (word)
-	{
-		ft_printf("word exists\n");
-	}
-	if (argc != 0)
-	{
-		//run_loop();
-		//argv[0] = "What is in argc number 3\n";
-		//ft_printf("%s", argv[0]);
-		ft_printf("%s\n", argv[0]);
-		ft_printf("str\n");
-		ft_printf("%d\n", sizeof(envp));
-		unsigned long i = 0;
-		while (i < sizeof(envp))
-		{
-			ft_printf("%s\n", envp[i]);
-			i++;
-		}
-		return (0);
-	}
-	return (0);
-}
-*/

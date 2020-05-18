@@ -19,6 +19,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <fcntl.h>
 # include "../libft/includes/libft.h"
 
 # define SPECIAL_CHAR(i) (i == '"' || i == '\'')

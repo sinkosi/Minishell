@@ -12,7 +12,33 @@
 
 #include "../includes/minishell.h"
 
-int			cmd_echo(char **args)
+static void	echo_path(char **str, int pos, char **g_envp){
+	char	*env;
+
+	env = env_find(str[pos] + 1, g_envp);
+	ft_printf("%s", env);
+}
+
+static void	echo_args(char **str, int pos, char **g_envp)
+{
+	int	i;
+
+	i = 0;
+	if (str[pos][i] == '$')
+		echo_path(str, pos, g_envp);
+	else
+	{
+		if (i == 0 && SPECIAL_CHAR(str[pos][i]))
+			i++;
+		while(!SPECIAL_CHAR(str[pos][i]) && str[pos][i] != '\0')
+			{
+				ft_putchar(str[pos][i]);
+				i++;
+			}
+	}
+}
+
+int			cmd_echo(char **args, char **g_envp)
 {
 	int i;
 	int n;
@@ -30,14 +56,10 @@ int			cmd_echo(char **args)
 		i++;
 	while (args)
 	{
-		echo_args(args, i);
+		echo_args(args, i, g_envp);
 		if (!args[i + 1] && n == 0)
 			ft_putchar('\n');
 		i++;
 	}
-}
-
-static void	echo_args(char **str, int pos)
-{
 	return (0);
 }

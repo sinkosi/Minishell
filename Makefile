@@ -13,7 +13,7 @@
 #################################
 #	NAME			#
 #################################
-NAME	= libftls.a
+NAME	= minishell.a
 
 #########################
 #	COLOURS		#
@@ -61,7 +61,19 @@ LIBFT_H		= -I ./$(LIBFT_PATH)/includes/
 #################################
 #	FILES			#
 #################################
-SRCS_NAME	=	cmd_pwd.c
+SRCS_NAME	=	display.c\
+				cmd_cd.c\
+				cmd_echo.c\
+				cmd_pwd.c\
+				ft_env.c\
+				ft_env_set.c\
+				ft_exec.c\
+				ft_path.c\
+				ft_split.c\
+				ft_startwith.c\
+				minishell.c
+				#display.c
+
 
 
 OBJ		= $(addprefix $(OBJ_PATH)/, $(SRCS_NAME:%.c=%.o))
@@ -84,12 +96,14 @@ $(NAME):	$(OBJ)
 		@ar rc $(NAME) $(OBJ) $(LIBFT_PATH)/obj/*.o
 		@ranlib $(NAME)
 		$(OUTPUT)
-		@clang -Wall -Wextra -Werror srcs/minishell.c libftls.a -o minishell
+		@clang -Wall -Wextra -Werror minishell.a -o minishell
+		#@gcc minishell.a -o minishell
+		#@clang -Wall -Wextra -Werror srcs/minishell.c minishell.a -o minishell
 		
 
 $(OBJ_PATH)/%.o: $(SRCS_PATH)/%.c
 	@mkdir	-p $(OBJ_PATH)
-	@$(CC1) -I $(INC_PATH) -o $@ -c $<
+	@$(CC) -I $(INC_PATH) -o $@ -c $<
 
 clean	:
 	@make -C $(LIBFT_PATH)/ clean

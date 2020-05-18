@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+//# include <limits.h>
 
 char	**cmd_pwd(char **args, char **env)
 {
@@ -18,7 +19,7 @@ char	**cmd_pwd(char **args, char **env)
 	int		i;
 
 	i = 0;
-	while (args[i] != '\0')
+	while (args[i] != NULL)
 		i++;
 	if (i == 1)
 		ft_printf("%s\n", getcwd(buf, PATH_MAX));

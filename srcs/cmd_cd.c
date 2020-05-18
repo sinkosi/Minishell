@@ -7,10 +7,10 @@ static void	change_dir(char *home_path, char **g_envp)
 
 	cwd = getcwd(buff, 1024);
 	if (chdir(home_path) == 0)
-		set_envp("OLDPWD", cwd, g_envp);
+		ft_path_env_set("OLDPWD", cwd, g_envp);
 	else
 	{
-		ft_dprintf(2, "cd: %s", home_path);
+		ft_dprintf(2, "%s", home_path);
 		if (access(home_path, F_OK) == -1)
 			ft_dprintf(2, ": no such file or directory\n");
 		else if (access(home_path, R_OK) == -1)

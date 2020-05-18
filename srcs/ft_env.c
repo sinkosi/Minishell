@@ -1,6 +1,16 @@
 #include "../includes/minishell.h"
 
-int			find_position(char *str, char **g_envp)
+int ft_path_len(char **path_str)
+{
+	int	i;
+
+	i = 0;
+	while(path_str[i] != NULL)
+		i++;
+	return (i);
+}
+
+int			pos_find(char *str, char **g_envp)
 {
 	int		i;
 	char	*temp;
@@ -56,23 +66,23 @@ char	*env_find(char *str, char **g_envp)
 	return (NULL);
 }
 
-void		set_envp(char *str, char *value, char **g_envp)
+void	ft_path_env_set(char *str, char *env, char **g_envp)
 {
 	int		pos;
 	char	*temp;
 
-	pos = find_position(str, g_envp);
-	temp = ft_strjoin("=", value);
+	pos = pos_find(str, g_envp);
+	temp = ft_strjoin("=", env);
 	if (g_envp[pos])
 	{
 		free(g_envp[pos]);
-		if (value)
+		if (env)
 			g_envp[pos] = ft_strjoin(str, temp);
 	}
 	else
 	{
 		g_envp = allocate_envp(pos + 1, g_envp);
-		if (value)
+		if (env)
 			g_envp[pos] = ft_strjoin(str, temp);
 		g_envp[pos + 1] = NULL;
 	}

@@ -18,24 +18,25 @@ static int	exec_path(char **arg, char **path, char **g_envp)
 	int			i;
 	struct stat	fstat;
 	char		*temp;
+	char		*str;
 
 	i = 0;
 	while (path[i])
 	{
-		temp = ft_strcat(temp, path[i]);
-		temp = ft_strcat(temp, "/");
-		temp = ft_strcat(temp, arg[0]);
-		if (lstat(temp, &fstat) != -1)
+		temp = ft_strjoin(path[i], "/");
+		str = ft_strjoin(temp, arg[0]);
+		free(temp);
+		if (lstat(str, &fstat) != -1)
 		{
 			if (fstat.st_mode & S_IXUSR)
 			{
-				ft_exec(temp, arg, g_envp);
-				free(temp);
+				ft_exec(str, arg, g_envp);
+				free(str);
 				return (1);
 			}
 		}
+		free(str);
 		i++;
-		free(temp);
 	}
 	return (0);
 }

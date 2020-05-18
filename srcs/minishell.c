@@ -38,7 +38,7 @@ static int	exec_builtin(char **arg, char **g_envp)
 	else if (ft_strcmp(arg[0], "echo") == 0)
 		return (cmd_echo(arg + 1, g_envp));
 	else if (ft_strcmp(arg[0], "setenv") == 0)
-		return (ft_env_set(arg + 1));
+		return (ft_env_set(arg + 1, g_envp));
 	else if (ft_strcmp(arg[0], "unsetenv") == 0)
 		return (ft_unsetenv(arg + 1, g_envp));
 	else if (ft_strcmp(arg[0], "env") == 0)
@@ -95,12 +95,10 @@ static void	copy_envp(int argc, char **argv, char **envp)//, char **g_envp)
 	(void)argv;
 }
 
-int			main(int ac, char **av, char **envp)
+int			main(int argc, char **argv, char **envp)
 {
-//	char **g_envp;
-
-	copy_envp(ac, av, envp);//, g_envp);
+	copy_envp(argc, argv, envp);
 	ft_loop(envp);
 //	ft_free_array(g_envp);
-	return (1);
+	return (0);
 }

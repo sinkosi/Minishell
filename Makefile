@@ -67,7 +67,6 @@ SRCS_NAME	=	cmd_cd.c\
 				ft_env_set.c\
 				ft_exec.c\
 				ft_free_array.c\
-				ft_path.c\
 				minishell.c
 
 

@@ -1,24 +1,28 @@
 #include "../includes/minishell.h"
 
-//MEM LEAKS LIKELY. TEST UNSETENV
-static char		**reallocate_env(int new_size, char **g_envp)
+/*
+** ft_env.c contains arr_alloc which is exactly the same except
+**	this contains arr[i] = NULL;
+*/
+static char		**arr_realloc(int size, char **g_envp)
 {
-	char	**new_env;
+	char	**arr;
 	int		i;
 
-	i = -1;
-	new_env = (char**)malloc(sizeof(char*) * (new_size + 1));
-	while (g_envp[++i] && i < new_size)
+	i = 0;
+	arr = (char**)malloc(sizeof(char*) * (size + 1));
+	while (g_envp[i] && i < size)
 	{
-		new_env[i] = ft_strdup(g_envp[i]);
+		arr[i] = ft_strdup(g_envp[i]);
 		free(g_envp[i]);
+		i++;
 	}
 	free(g_envp);
-	new_env[i] = NULL;
-	return (new_env);
+	arr[i] = NULL;
+	return (arr);
 }
 
-static void		remove_envp(int pos, char **g_envp)
+static void		env_del(int pos, char **g_envp)
 {
 	int	i;
 	int	count;
@@ -34,7 +38,7 @@ static void		remove_envp(int pos, char **g_envp)
 		i++;
 		count++;
 	}
-	g_envp = reallocate_env(count - 1, g_envp);
+	g_envp = arr_realloc(count - 1, g_envp);
 }
 
 int				ft_unsetenv(char **arg, char **g_envp)
@@ -52,7 +56,7 @@ int				ft_unsetenv(char **arg, char **g_envp)
 	{
 		pos = pos_find(arg[i], g_envp);
 		if (g_envp[pos])
-			remove_envp(pos, g_envp);
+			env_del(pos, g_envp);
 		i++;
 	}
 	return (1);

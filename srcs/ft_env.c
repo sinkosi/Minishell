@@ -30,20 +30,21 @@ int			pos_find(char *str, char **g_envp)
 	return (i);
 }
 
-static char	**allocate_envp(int new_pos, char **g_envp)
+static char	**arr_alloc(int pos, char **g_envp)
 {
-	char	**new_envp;
+	char	**arr;
 	int		i;
 
-	i = -1;
-	new_envp = (char **)malloc(sizeof(char *) * (new_pos + 1));
-	while (g_envp[++i] && i < new_pos)
+	i = 0;
+	arr = (char **)malloc(sizeof(char *) * (pos + 1));
+	while (g_envp[i] && i < pos)
 	{
-		new_envp[i] = ft_strdup(g_envp[i]);
+		arr[i] = ft_strdup(g_envp[i]);
 		free(g_envp[i]);
+		i++;
 	}
 	free(g_envp[i]);
-	return (new_envp);
+	return (arr);
 }
 
 char	*env_find(char *str, char **g_envp)
@@ -81,7 +82,7 @@ void	ft_path_env_set(char *str, char *env, char **g_envp)
 	}
 	else
 	{
-		g_envp = allocate_envp(pos + 1, g_envp);
+		g_envp = arr_alloc(pos + 1, g_envp);
 		if (env)
 			g_envp[pos] = ft_strjoin(str, temp);
 		g_envp[pos + 1] = NULL;

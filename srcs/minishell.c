@@ -29,7 +29,6 @@ static void	print_env(char **g_envp)
 
 static int	exec_builtin(char **arg, char **g_envp)
 {
-	ft_putendl("exec_builtin");
 	if (!arg || arg[0] == NULL)
 		return (1);
 	else if (ft_strcmp(arg[0], "exit") == 0)
@@ -68,12 +67,8 @@ static void	ft_loop(char **g_envp)
 			add_history(cmd_line);
 		arg = ft_strsplit(cmd_line, ' ');
 		free(cmd_line);
-		//ft_putendl("Post free, before exec");
-		//ft_putendl(g_envp[0]);
 		status = exec_builtin(arg, g_envp);
-		//ft_putendl("post exec");
-		ft_memdel((void**)(arg));
-		//ft_putstr("\nLoop bottom\n");
+		ft_free_array(arg);
 	}
 }
 
@@ -83,14 +78,14 @@ static void	copy_envp(int ac, char **av, char **envp, char **g_envp)
 
 	(void)ac;
 	(void)av;
-	ft_putendl("Do i get here");
 	g_envp = (char **)malloc(sizeof(char *) * (ft_path_len(envp) + 1));
 	i = 0;
 	while (envp[i])
 	{
 		if (!(g_envp[i] = ft_strdup(envp[i])))
 		{
-			ft_memdel((void**)(g_envp));
+			//ft_memdel((void**)(g_envp));
+			ft_free_array(g_envp);
 			write(1, "\n", 1);
 			exit(0);
 		}
@@ -108,7 +103,7 @@ int			main(int ac, char **av, char **envp)
 	//char *str = readline("Test>> ");
 	copy_envp(ac, av, envp, g_envp);
 	ft_loop(g_envp);
-	//ft_memdel((void**)(g_envp));
+	ft_free_array(g_envp);
 	return (1);
 }
 /*

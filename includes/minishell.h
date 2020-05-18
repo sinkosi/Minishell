@@ -62,6 +62,11 @@ int		ft_unsetenv(char **arg, char **g_envp);
 int		exec_bin(char **arg, char **g_envp);
 
 /*
+**	ft_free_array.c - 
+*/
+void	ft_free_array(char **array);
+
+/*
 ** ft_path.c - 
 */
 int		ft_path_len(char **path_str);

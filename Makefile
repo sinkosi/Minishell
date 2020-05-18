@@ -61,19 +61,16 @@ LIBFT_H		= -I ./$(LIBFT_PATH)/includes/
 #################################
 #	FILES			#
 #################################
-SRCS_NAME	=	display.c\
-				cmd_cd.c\
+SRCS_NAME	=	cmd_cd.c\
 				cmd_echo.c\
 				cmd_pwd.c\
 				ft_env.c\
 				ft_env_set.c\
 				ft_exec.c\
+				ft_free_array.c\
 				ft_path.c\
 				ft_split.c\
-				ft_startwith.c\
 				minishell.c
-				#display.c
-
 
 
 OBJ		= $(addprefix $(OBJ_PATH)/, $(SRCS_NAME:%.c=%.o))
@@ -97,9 +94,6 @@ $(NAME):	$(OBJ)
 		@ranlib $(NAME)
 		$(OUTPUT)
 		@clang -Wall -Wextra -Werror minishell.a -lreadline -o minishell
-		#@gcc minishell.a -o minishell
-		#@clang -Wall -Wextra -Werror srcs/minishell.c minishell.a -o minishell
-		
 
 $(OBJ_PATH)/%.o: $(SRCS_PATH)/%.c
 	@mkdir	-p $(OBJ_PATH)

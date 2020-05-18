@@ -96,7 +96,7 @@ $(NAME):	$(OBJ)
 		@ar rc $(NAME) $(OBJ) $(LIBFT_PATH)/obj/*.o
 		@ranlib $(NAME)
 		$(OUTPUT)
-		@clang -Wall -Wextra -Werror minishell.a -o minishell
+		@clang -Wall -Wextra -Werror minishell.a -lreadline -o minishell
 		#@gcc minishell.a -o minishell
 		#@clang -Wall -Wextra -Werror srcs/minishell.c minishell.a -o minishell
 		

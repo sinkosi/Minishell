@@ -12,6 +12,7 @@
 
 #include "../includes/minishell.h"
 
+#include <readline/readline.h>
 //char	**g_envp;
 
 static void	print_env(char **g_envp)
@@ -28,6 +29,7 @@ static void	print_env(char **g_envp)
 
 static int	exec_builtin(char **arg, char **g_envp)
 {
+	ft_putendl("exec_builtin");
 	if (!arg || arg[0] == NULL)
 		return (1);
 	else if (ft_strcmp(arg[0], "exit") == 0)
@@ -36,7 +38,7 @@ static int	exec_builtin(char **arg, char **g_envp)
 		return (0);
 	}
 	else if (ft_strcmp(arg[0], "cd") == 0)
-		return (ft_cd(arg + 1, g_envp));
+		return (ft_cd(arg, g_envp));
 	else if (ft_strcmp(arg[0], "echo") == 0)
 		return (cmd_echo(arg + 1, g_envp));
 	else if (ft_strcmp(arg[0], "setenv") == 0)
@@ -61,19 +63,17 @@ static void	ft_loop(char **g_envp)
 	status = 1;
 	while (status)
 	{
-		ft_putstr("\033[32m$>\033[36m ");
-		ft_putstr("\n Word1\n");
-		//get_next_line(0, &cmd_line);
-		cmd_line = "words like this";
-		ft_putstr(cmd_line);
-		//arg = ft_split(cmd_line);
-		//ft_putstr(arg[0]);
-		ft_putstr("\nbroken\n");
-		//arg = ft_strsplit(cmd_line, ' ');
+		cmd_line = readline("\033[32m$>\033[36m ");
+		if (cmd_line && *cmd_line)
+			add_history(cmd_line);
+		arg = ft_strsplit(cmd_line, ' ');
 		free(cmd_line);
+		//ft_putendl("Post free, before exec");
+		//ft_putendl(g_envp[0]);
 		status = exec_builtin(arg, g_envp);
+		//ft_putendl("post exec");
 		ft_memdel((void**)(arg));
-		ft_putstr("\nLoop bottom\n");
+		//ft_putstr("\nLoop bottom\n");
 	}
 }
 
@@ -83,18 +83,21 @@ static void	copy_envp(int ac, char **av, char **envp, char **g_envp)
 
 	(void)ac;
 	(void)av;
+	ft_putendl("Do i get here");
 	g_envp = (char **)malloc(sizeof(char *) * (ft_path_len(envp) + 1));
 	i = 0;
 	while (envp[i])
 	{
 		if (!(g_envp[i] = ft_strdup(envp[i])))
 		{
-			//ft_memdel((void**)(g_envp));
+			ft_memdel((void**)(g_envp));
 			write(1, "\n", 1);
 			exit(0);
 		}
+		//ft_putendl(g_envp[i]);
 		i++;
 	}
+	//ft_putendl(g_envp[0]);
 	g_envp[i] = NULL;
 }
 
@@ -102,6 +105,7 @@ int			main(int ac, char **av, char **envp)
 {
 	char **g_envp;
 
+	//char *str = readline("Test>> ");
 	copy_envp(ac, av, envp, g_envp);
 	ft_loop(g_envp);
 	//ft_memdel((void**)(g_envp));

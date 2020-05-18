@@ -36,12 +36,12 @@ char			**ft_split(char const *s)
 		return (NULL);
 	while (s[i] != '\0')
 	{
-		if (ft_isspace(s[i]))
+		if (ft_isspace(s[i]) == 1)
 			i++;
 		else
 		{
 			j = i;
-			while (s[i] != '\0' && !ft_isspace(s[i]))
+			while (s[i] != '\0' && ft_isspace(s[i]) == 0)
 				i++;
 			ptopntr[k++] = ft_strsub(s, j, i - j);
 		}

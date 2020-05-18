@@ -16,15 +16,10 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-
-/*
-# include <sys/readline/readline.h>
+# include <readline/readline.h>
 # include <readline/history.h>
-*/
-# include "../libft/includes/libft.h"
 # include <limits.h>
-# include <stdio.h>
-
+# include "../libft/includes/libft.h"
 
 # define SPECIAL_CHAR(i) (i == '"' || i == '\'')
 
@@ -49,7 +44,7 @@ char	**cmd_pwd(char **args, char **env);
 /*
 ** ft_env.c - This file is for handling the env
 */
-//int		find_position(char *str, char **g_envp);
+int		find_position(char *str, char **g_envp);
 char	*env_find(char *str, char **g_envp);
 void	set_envp(char *str, char *value, char **g_envp);
 

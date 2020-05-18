@@ -63,13 +63,11 @@ LIBFT_H		= -I ./$(LIBFT_PATH)/includes/
 #################################
 SRCS_NAME	=	cmd_cd.c\
 				cmd_echo.c\
-				cmd_pwd.c\
 				ft_env.c\
 				ft_env_set.c\
 				ft_exec.c\
 				ft_free_array.c\
 				ft_path.c\
-				ft_split.c\
 				minishell.c
 
 

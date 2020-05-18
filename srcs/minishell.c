@@ -30,7 +30,7 @@ static int	exec_builtin(char **arg, char **g_envp)
 		return (1);
 	else if (ft_strcmp(arg[0], "exit") == 0)
 	{
-		ft_putendl("The program is exiting... 100%");
+		ft_printf("%sExiting\n%sPRODUCT OF WETHINKCODE\n%sSINKOSI & KNGALALU\n%s", M_RESET, M_CYAN, M_MAGENTA, M_RESET);
 		return (0);
 	}
 	else if (ft_strcmp(arg[0], "cd") == 0)
@@ -50,32 +50,35 @@ static int	exec_builtin(char **arg, char **g_envp)
 		return (exec_bin(arg, g_envp));
 }
 
-static void	ft_loop(char **g_envp)
+static void	ft_loop(char **envp)
 {
 	char	*cmd_line;
 	char	**arg;
 	int		status;
+	char	**g_envp;
 
 	status = 1;
+	g_envp = envp;
 	while (status)
 	{
 		cmd_line = readline("\033[32m$>\033[36m ");
 		if (cmd_line && *cmd_line)
 			add_history(cmd_line);
 		arg = ft_strsplit(cmd_line, ' ');
-		free(cmd_line);
+		ft_strdel(&cmd_line);
 		status = exec_builtin(arg, g_envp);
 		ft_free_array(arg);
+		//ft_free_array(g_envp);
 	}
 }
 
-static void	copy_envp(int ac, char **av, char **envp, char **g_envp)
+static void	copy_envp(int argc, char **argv, char **envp)//, char **g_envp)
 {
 	int		i;
+	char **g_envp;
 
-	(void)ac;
-	(void)av;
-	g_envp = (char **)malloc(sizeof(char *) * (ft_path_len(envp) + 1));
+	g_envp = envp;
+	//g_envp = (char **)malloc(sizeof(char *) * (ft_path_len(envp) + 1));
 	i = 0;
 	while (envp[i])
 	{
@@ -88,14 +91,16 @@ static void	copy_envp(int ac, char **av, char **envp, char **g_envp)
 		i++;
 	}
 	g_envp[i] = NULL;
+	(void)argc;
+	(void)argv;
 }
 
 int			main(int ac, char **av, char **envp)
 {
-	char **g_envp;
+//	char **g_envp;
 
-	copy_envp(ac, av, envp, g_envp);
-	ft_loop(g_envp);
-	ft_free_array(g_envp);
+	copy_envp(ac, av, envp);//, g_envp);
+	ft_loop(envp);
+//	ft_free_array(g_envp);
 	return (1);
 }

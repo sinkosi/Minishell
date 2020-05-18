@@ -1,5 +1,4 @@
 #include "../includes/minishell.h"
-#include <sys/stat.h>
 
 static int	ft_exec(char *path, char **arg, char **g_envp)
 {
@@ -9,40 +8,34 @@ static int	ft_exec(char *path, char **arg, char **g_envp)
 	if (pid == 0)
 		execve(path, arg, g_envp);
 	else if (pid < 0)
-		ft_putendl("unfortunatley it failed");
+		ft_dprintf(2, "Unexpected failure, please retry");
 	wait(&pid);
 	return (1);
-}
-
-static void	print_error(char *arg)
-{
-	ft_putstr("$> command not found:");
-	ft_putendl(arg);
 }
 
 static int	exec_path(char **arg, char **path, char **g_envp)
 {
 	int			i;
 	struct stat	fstat;
-	char		*tmp;
-	char		*tmp2;
+	char		*temp;
 
-	i = -1;
-	while (path[++i])
+	i = 0;
+	while (path[i])
 	{
-		tmp = ft_strjoin(path[i], "/");
-		tmp2 = ft_strjoin(tmp, arg[0]);
-		free(tmp);
-		if (lstat(tmp2, &fstat) != -1)
+		temp = ft_strcat(temp, path[i]);
+		temp = ft_strcat(temp, "/");
+		temp = ft_strcat(temp, arg[0]);
+		if (lstat(temp, &fstat) != -1)
 		{
 			if (fstat.st_mode & S_IXUSR)
 			{
-				ft_exec(tmp2, arg, g_envp);
-				free(tmp2);
+				ft_exec(temp, arg, g_envp);
+				free(temp);
 				return (1);
 			}
 		}
-		free(tmp2);
+		i++;
+		free(temp);
 	}
 	return (0);
 }
@@ -64,13 +57,13 @@ int			exec_bin(char **arg, char **g_envp)
 	}
 	path = ft_strsplit(env_find("PATH", g_envp), ':');
 	if (!path || path[0] == NULL)
-		print_error(arg[0]);
+		ft_dprintf(2, "$> Unfortunately the command was not found :( : %s\n", arg[0]);
 	else
 	{
 		ret = exec_path(arg, path, g_envp);
 		if (ret == 0)
-			print_error(arg[0]);
+			ft_dprintf(2, "$> The '%s' command was not found!\n", arg[0]);
 	}
-	ft_memdel((void**)path);
+	ft_free_array(path);
 	return (1);
 }

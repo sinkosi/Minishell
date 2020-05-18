@@ -54,12 +54,13 @@ int			cmd_echo(char **args, char **g_envp)
 	i = 0;
 	if (n == 1)
 		i++;
-	while (args)
+	while (args[i])
 	{
 		echo_args(args, i, g_envp);
+		ft_putchar(' ');
 		if (!args[i + 1] && n == 0)
 			ft_putchar('\n');
 		i++;
 	}
-	return (0);
+	return (1);
 }

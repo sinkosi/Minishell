@@ -44,7 +44,7 @@ int				ft_unsetenv(char **arg, char **g_envp)
 	i = 0;
 	if (!arg[0])
 	{
-		ft_putendl("unsetenv: try to pass something");
+		ft_printf("unsetenv: %sPlease retry%s", M_YELLOW, M_RESET);
 		return (1);
 	}
 	while (arg[i])
@@ -61,17 +61,17 @@ int	ft_env_set(char	**args)
 {
 	if(!args[0] || (args[0] && !args[1]))
 	{
-		ft_dprintf(2, "setenv: %sWarning: Not enough arguments%s", M_YELLOW, M_RESET);
+		ft_dprintf(2, "setenv: %sWarning: Not enough arguments%s\n", M_YELLOW, M_RESET);
 		return (1);
 	}
 	if (args[0] && args[1])
 	{
 		if(args[2])
 		{
-			ft_dprintf(2, "setenv: %sWarning: exceeds argument limit%s", M_YELLOW, M_RESET);
+			ft_dprintf(2, "setenv: %sWarning: exceeds argument limit%s\n", M_YELLOW, M_RESET);
 			return (1);
 		}
 		ft_path_env_set(args[0], args[1]);
 	}
-	return (0);
+	return (1);
 }

@@ -1,60 +1,30 @@
 #include "../includes/minishell.h"
 
-static void	change_dir(char *home_path, char **g_envp)
+int		ft_cd(char *path)
 {
-	char	*cwd;
-	char	buff[1024];
+	char	oldpwd[PATH_MAX];
+	char	pwd[PATH_MAX];
+	int		freeme;
 
-	cwd = getcwd(buff, 1024);
-	if (chdir(home_path) == 0)
-		ft_path_env_set("OLDPWD", cwd, g_envp);
-	else
+	freeme = 0;
+	if (!path)
 	{
-		ft_dprintf(2, "%s", home_path);
-		if (access(home_path, F_OK) == -1)
-			ft_dprintf(2, ": no such file or directory\n");
-		else if (access(home_path, R_OK) == -1)
-			ft_dprintf(2, ": $sPermission Failure$s\n", M_RED, M_RESET);
-		else
-			ft_dprintf(2, ": not a directory\n");
+		path = search_par(g_env, "HOME", NULL, SEARCH_VAL);
+		freeme = 1;
 	}
-}
-
-static void	home_view(char *home_path, char *path, char **g_envp)
-{
-	char	*temp;
-
-	temp = ft_strdup(home_path);
-	temp = ft_strcat(home_path, "/");
-	path += 2;
-	temp = ft_strcat(temp, path);
-	change_dir(temp, g_envp);
-	free(temp);
-}
-
-int			ft_cd(char **arg, char **g_envp)
-{
-	char	*home_path;
-
-	home_path = env_find("HOME", g_envp);
-	if (!arg[0] || (arg[0][0] == '~' && !arg[0][1]))
+	else if (ft_strcmp(path, "-") == 0)
 	{
-		change_dir(home_path, g_envp);
+		path = search_par(g_env, "OLDPWD", NULL, SEARCH_VAL);
+		freeme = 1;
+	}
+	if (!permission_dir(path))
 		return (1);
-	}
-	else
-	{
-		if (arg[0][0] == '~' && arg[0][1] == '/')
-		{
-			home_view(home_path, arg[0], g_envp);
-			return (1);
-		}
-		else if (arg[0][0] == '-' && !arg[0][1])
-		{
-			change_dir(env_find("OLDPWD", g_envp), g_envp);
-			return (1);
-		}
-		change_dir(arg[0], g_envp);
-	}
+	getcwd(oldpwd, PATH_MAX);
+	ft_setenv("OLDPWD", oldpwd, ft_strlen("OLDPWD"), ft_strlen(oldpwd));
+	chdir(path);
+	getcwd(pwd, PATH_MAX);
+	ft_setenv("PWD", pwd, ft_strlen("PWD"), ft_strlen(pwd));
+	if (freeme)
+		free(path);
 	return (1);
 }

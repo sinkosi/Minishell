@@ -13,7 +13,7 @@
 #################################
 #	NAME			#
 #################################
-NAME	= minishell.a
+NAME	= minishell
 
 #########################
 #	COLOURS		#
@@ -61,13 +61,22 @@ LIBFT_H		= -I ./$(LIBFT_PATH)/includes/
 #################################
 #	FILES			#
 #################################
-SRCS_NAME	=	cmd_cd.c\
+SRCS_NAME	=	arr_delete.c\
+				arr_dup.c\
+				arr_len.c\
+				arr_realloc.c\
+				cmd_cd.c\
 				cmd_echo.c\
-				ft_env.c\
-				ft_env_set.c\
-				ft_exec.c\
-				ft_free_array.c\
-				minishell.c
+				errors.c\
+				explode.c\
+				ft_strrealloc.c\
+				ft_setenv.c\
+				ft_unsetenv.c\
+				minishell.c\
+				parser.c\
+				permission_err.c\
+				print_env.c\
+				search_par.c
 
 
 OBJ		= $(addprefix $(OBJ_PATH)/, $(SRCS_NAME:%.c=%.o))
@@ -90,7 +99,7 @@ $(NAME):	$(OBJ)
 		@ar rc $(NAME) $(OBJ) $(LIBFT_PATH)/obj/*.o
 		@ranlib $(NAME)
 		$(OUTPUT)
-		@clang -Wall -Wextra -Werror minishell.a -lreadline -o minishell
+		@$(CC) $(FLAGS) $(SRCS_PATH)/$(SRCS_NAME) $(LIBFT_A) -o minishell
 
 $(OBJ_PATH)/%.o: $(SRCS_PATH)/%.c
 	@mkdir	-p $(OBJ_PATH)

@@ -1,104 +1,97 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sinkosi <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/23 11:23:23 by sinkosi           #+#    #+#             */
-/*   Updated: 2020/01/29 13:37:11 by sinkosi          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
-static void	print_env(char **g_envp)
+static void	get_path(char **args, char **path)
 {
-	int		i;
+	char *tmp;
 
-	i = 0;
-	while (g_envp[i])
+	if (!(tmp = search_par(g_env, "PATH", args[0], SEARCH_ON)))
 	{
-		ft_putendl(g_envp[i]);
-		i++;
-	}
-}
-
-static int	exec_builtin(char **arg, char **g_envp)
-{
-	if (!arg || arg[0] == NULL)
-		return (1);
-	else if (ft_strcmp(arg[0], "exit") == 0)
-	{
-		ft_printf("%sExiting\n%sPRODUCT OF WETHINKCODE\n%sSINKOSI & KNGALALU\n%s", M_RESET, M_CYAN, M_MAGENTA, M_RESET);
-		return (0);
-	}
-	else if (ft_strcmp(arg[0], "cd") == 0)
-		return (ft_cd(arg, g_envp));
-	else if (ft_strcmp(arg[0], "echo") == 0)
-		return (cmd_echo(arg + 1, g_envp));
-	else if (ft_strcmp(arg[0], "setenv") == 0)
-		return (ft_env_set(arg + 1, g_envp));
-	else if (ft_strcmp(arg[0], "unsetenv") == 0)
-		return (ft_unsetenv(arg + 1, g_envp));
-	else if (ft_strcmp(arg[0], "env") == 0)
-	{
-		print_env(g_envp);
-		return (1);
+		*path = args[0];
+		return ;
 	}
 	else
-		return (exec_bin(arg, g_envp));
+		tmp = ft_strrealloc(tmp, args[0]);
+	ft_strcpy(*path, tmp);
+	free(tmp);
 }
 
-static void	ft_loop(char **envp)
+static int	run(char **args, int status)
 {
-	char	*cmd_line;
-	char	**arg;
+	char	tmp_path[PATH_MAX];
+	pid_t	pid;
+	char	*path;
+
+	path = tmp_path;
+	get_path(args, &path);
+	if (!permission(path))
+		return (1);
+	pid = fork();
+	if (pid == 0)
+	{
+		execve(path, args, g_env);
+		ft_putstr("Error opening: ");
+		ft_putendl(*args);
+		exit(EXIT_FAILURE);
+	}
+	wait(&status);
+	return (1);
+}
+
+static int	run_exec(char **args)
+{
 	int		status;
-	char	**g_envp;
 
 	status = 1;
-	g_envp = envp;
+	if (!args || !*args || !**args)
+		return (1);
+	if (ft_strcmp(*args, "exit") == 0)
+		return (0);
+	else if (ft_strcmp(*args, "env") == 0)
+		return (print_env(g_env));
+	else if (ft_strcmp(*args, "setenv") == 0)
+		return (setenv_checker(args));
+	else if (ft_strcmp(*args, "cd") == 0)
+		return (ft_cd(args[1]));
+	else if (ft_strcmp(*args, "unsetenv") == 0)
+		return (unsetenv_checker(args));
+	else if (ft_strcmp(*args, "echo") == 0)
+		return (ft_echo(args));
+	else
+		return (run(args, status));
+}
+
+static void	ft_loop(void)
+{
+	char	*cmd_line;
+	char	**args;
+	char	*trimed_input;
+	int		status;
+
+	status = 1;
+	cmd_line = NULL;
 	while (status)
 	{
-		cmd_line = readline("\033[32m$>\033[36m ");
-		if (cmd_line && *cmd_line)
-			add_history(cmd_line);
-		arg = ft_strsplit(cmd_line, ' ');
+		ft_putstr("msh > ");
+		if (get_next_line(STDIN_FILENO, &cmd_line) == -1)
+			error("error reading stdin.", NON_TERMINATE);
+		trimed_input = ft_strtrim(cmd_line);
 		ft_strdel(&cmd_line);
-		status = exec_builtin(arg, g_envp);
-		ft_free_array(arg);
-		//ft_free_array(g_envp);
+		args = parser(trimed_input);
+		ft_strdel(&trimed_input);
+		explode(args);
+		status = run_exec(args);
+		if (args)
+			arr_delete(&args);
 	}
 }
 
-static void	copy_envp(int argc, char **argv, char **envp)//, char **g_envp)
+int			main(int ac, char *av[], char *env[])
 {
-	int		i;
-	char **g_envp;
-
-	g_envp = envp;
-	//g_envp = (char **)malloc(sizeof(char *) * (ft_path_len(envp) + 1));
-	i = 0;
-	while (envp[i])
-	{
-		if (!(g_envp[i] = ft_strdup(envp[i])))
-		{
-			ft_free_array(g_envp);
-			write(1, "\n", 1);
-			exit(0);
-		}
-		i++;
-	}
-	g_envp[i] = NULL;
-	(void)argc;
-	(void)argv;
-}
-
-int			main(int argc, char **argv, char **envp)
-{
-	copy_envp(argc, argv, envp);
-	ft_loop(envp);
-//	ft_free_array(g_envp);
+	(void)ac;
+	(void)av;
+	g_env = arr_dup(env);
+	ft_loop();
+	arr_delete(&g_env);
+	//sleep(1000);
 	return (0);
 }

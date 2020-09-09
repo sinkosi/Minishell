@@ -36,3 +36,5 @@ for your Minishell, so be sure to code the cleanest, simplest program possible.
 # HOW TO USE
 
 # FINAL MARK
+
+## 100/100

@@ -45,3 +45,5 @@ a.out
 .vscode/tasks.json
 a.out.dSYM/Contents/Info.plist
 cmake-build-debug/CMakeFiles/clion-log.txt
+
+ignore/
